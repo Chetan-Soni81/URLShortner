@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Url Shortner</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h1>Url Shortner</h1>
+    <div>
+        <form id="myform" action="">
+            {% csrf_token %}
+            <input type="text" id="link" name="link" placeholder="Enter the URL">
+            <button type="submit" id="shorten">Submit</button>
+        </form>
+    </div>
+    <section>
+        <h2></h2>
+    </section>
+
+    <script type="text/javascript">
+        $("#myform").submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '/create',
+                data: {
+                    link: $('#link').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function (data) {
+                    $('h2').html("localhost:8000/"+data)
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
